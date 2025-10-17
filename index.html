@@ -5,67 +5,165 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rock Paper Scissors Game</title>
   <style>
+    /* Reset default margins and ensure box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #1e1e2f;
+    color: #fff;
+    text-align: center;
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem; /* Relative padding */
+}
+
+h1 {
+    font-size: 2.5rem; /* Scales with root font */
+    margin-bottom: 1.5rem;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allows buttons to wrap on small screens */
+    justify-content: center;
+    gap: 1rem; /* Relative spacing */
+    width: 90vw; /* Responsive width */
+    max-width: 800px; /* Prevent overly wide layout */
+}
+
+button {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem; /* Relative padding */
+    margin: 0.5rem;
+    font-size: 1.1rem; /* Scales with root font */
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff3b2e;
+    transform: scale(1.1);
+    box-shadow: 0 0.3rem 0.9rem rgba(0, 0, 0, 0.5);
+}
+
+button:active {
+    transform: scale(0.9);
+}
+
+button[style*="background-color: red"] {
+    background-color: red; /* Maintain reset button color */
+}
+
+#announcement, #results {
+    margin-top: 1.5rem;
+    font-size: 1.2rem; /* Relative font size */
+    padding: 0.8rem;
+    background-color: #2c2c3c;
+    border-radius: 0.4rem;
+    box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+    width: 90%; /* Relative width */
+    max-width: 500px; /* Prevent overflow */
+}
+
+#announcement:hover, #results:hover {
+    transform: translateY(-0.2rem);
+    box-shadow: 0 0.3rem 0.9rem rgba(0, 0, 0, 0.5);
+}
+
+/* Media query for mobile devices (up to 480px) */
+@media (max-width: 480px) {
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #1e1e2f;
-      color: #fff;
-      text-align: center;
-      padding: 40px;
-      display: grid;
-      grid-template-rows: 1fr 1fr 1fr;
-     
+        padding: 1rem; /* Reduced padding */
+    }
+
+    h1 {
+        font-size: 1.8rem; /* Smaller header */
+    }
+
+    .container {
+        flex-direction: column; /* Stack buttons vertically */
+        width: 95vw; /* Slightly wider */
     }
 
     button {
-      background-color: #ff6f61;
-      color: white;
-      border: none;
-      padding: 15px 25px;
-      margin: 10px;
-      font-size: 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #ff3b2e;
-      transform: scale(1.1);
-      box-shadow: 0 5px 15px black;
-    }
-    
-    button:active{
-      transform: scale(0.9);
+        padding: 0.6rem 1rem; /* Smaller padding */
+        font-size: 1rem; /* Slightly smaller font */
+        margin: 0.3rem;
     }
 
     #announcement, #results {
-      margin-top: 30px;
-      font-size: 20px;
-      padding: 10px;
-      background-color: #2c2c3c;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.2s ease;
-      min-width: 300px;
+        font-size: 1rem; /* Smaller text */
+        padding: 0.6rem;
+        width: 95%; /* Adjust width */
     }
-    #announcement:hover{
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px black;
+}
+
+/* Media query for tablets (481px to 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    body {
+        padding: 1.5rem;
     }
-    #results:hover{
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px black;
+
+    h1 {
+        font-size: 2rem;
     }
+
+    .container {
+        width: 90vw;
+        gap: 0.8rem;
+    }
+
+    button {
+        padding: 0.7rem 1.2rem;
+        font-size: 1.05rem;
+    }
+
+    #announcement, #results {
+        font-size: 1.1rem;
+        padding: 0.7rem;
+    }
+}
+
+/* Media query for larger screens (above 768px) */
+@media (min-width: 769px) {
+    h1 {
+        font-size: 2.8rem;
+    }
+
+    .container {
+        max-width: 1000px; /* Wider layout */
+    }
+
+    button {
+        padding: 0.9rem 1.7rem;
+        font-size: 1.2rem;
+    }
+
+    #announcement, #results {
+        font-size: 1.3rem;
+    }
+}
   </style>
 </head>
 <body>
  
   <h1>Rock Paper Scissors</h1>
 
-  <div>
+  <div class="container">
       <button onclick="
       let userMove = 'Rock';
       let computerMove = '';
@@ -194,6 +292,7 @@
       ties = 0;
 
       document.getElementById('results').innerText= 'Wins: ' + wins + ' Loses: '+ loses + ' Ties: ' + ties;
+      document.getElementById('announcement').innerHTML = '<i>Display results</i>';
     ">Reset Scores</button>
   </div>  
   <div id="announcement">
